@@ -19,7 +19,7 @@ int main(){
     Hami_sim.print();
     time_sim.print();
     input(Hami_sim,time_sim,stat_sim);
-    initialize(Hami_sim,time_sim,stat_sim);
+    initialize(Hami_sim,time_sim,stat_sim);//hhhh
     //evolution();
     //analysis();
     //output();
