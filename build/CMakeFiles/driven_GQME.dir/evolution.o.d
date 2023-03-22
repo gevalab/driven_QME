@@ -1,5 +1,7 @@
-CMakeFiles/driven_GQME.dir/main.o: \
-  /Users/huangzongwei/Documents/Academic/Umich/2022/Geva/driven_GQME/cpp/main.cpp \
+CMakeFiles/driven_GQME.dir/evolution.o: \
+  /Users/huangzongwei/Documents/Academic/Umich/2022/Geva/driven_GQME/cpp/evolution.cpp \
+  /Users/huangzongwei/Documents/Academic/Umich/2022/Geva/driven_GQME/cpp/evolution.h \
+  /Users/huangzongwei/Documents/Academic/Umich/2022/Geva/driven_GQME/cpp/constant.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/iostream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/__config \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/pthread.h \
@@ -230,7 +232,6 @@ CMakeFiles/driven_GQME.dir/main.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/__bsd_locale_defaults.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/bitset \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/__bit_reference \
-  /Users/huangzongwei/Documents/Academic/Umich/2022/Geva/driven_GQME/cpp/constant.h \
   /opt/homebrew/Cellar/armadillo/11.4.2/include/armadillo \
   /opt/homebrew/Cellar/armadillo/11.4.2/include/armadillo_bits/config.hpp \
   /opt/homebrew/Cellar/armadillo/11.4.2/include/armadillo_bits/compiler_check.hpp \
@@ -910,7 +911,4 @@ CMakeFiles/driven_GQME.dir/main.o: \
   /opt/homebrew/Cellar/armadillo/11.4.2/include/armadillo_bits/newarp_TridiagEigen_meat.hpp \
   /opt/homebrew/Cellar/armadillo/11.4.2/include/armadillo_bits/newarp_UpperHessenbergEigen_meat.hpp \
   /opt/homebrew/Cellar/armadillo/11.4.2/include/armadillo_bits/newarp_UpperHessenbergQR_meat.hpp \
-  /opt/homebrew/Cellar/armadillo/11.4.2/include/armadillo_bits/compiler_setup_post.hpp \
-  /Users/huangzongwei/Documents/Academic/Umich/2022/Geva/driven_GQME/cpp/ioput.h \
-  /Users/huangzongwei/Documents/Academic/Umich/2022/Geva/driven_GQME/cpp/initialize.h \
-  /Users/huangzongwei/Documents/Academic/Umich/2022/Geva/driven_GQME/cpp/evolution.h
+  /opt/homebrew/Cellar/armadillo/11.4.2/include/armadillo_bits/compiler_setup_post.hpp

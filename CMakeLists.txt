@@ -14,7 +14,7 @@ set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
 set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
 set (CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
 
-add_executable(driven_GQME main.cpp constant.h input.h)
+add_executable(driven_GQME main.cpp constant.h constant.cpp ioput.h ioput.cpp initialize.h initialize.cpp evolution.h evolution.cpp)
 target_link_libraries(driven_GQME PRIVATE ${ARMADILLO_LIBRARIES})
 enable_testing()
 
