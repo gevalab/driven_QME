@@ -7,20 +7,19 @@
 
 #include <iostream>
 #include "constant.h"
-#include "input.h"
+#include "ioput.h"
 #include "initialize.h"
-
-using namespace std;
+#include "evolution.h"
 
 int main(){
     class Hamiltonian Hami_sim;
     class timer time_sim;
     class state stat_sim;
-    Hami_sim.print();
-    time_sim.print();
+    int error_flag = 0;
     input(Hami_sim,time_sim,stat_sim);
-    initialize(Hami_sim,time_sim,stat_sim);//hhhh
-    //evolution();
+    error_flag = initialize(Hami_sim,time_sim,stat_sim);
+    if(error_flag == 1){return 0;}
+    evolution(Hami_sim,time_sim,stat_sim);
     //analysis();
     //output();
     

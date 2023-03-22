@@ -1,12 +1,16 @@
-w       1.0
-w01     1.0
-epsilon 1.0
-Lambda  1.0
+w       2.8125
+w01     0.28125
+epsilon 0.02
+Lambda  0.2
 N       50
+Omega   0.5
+y0      0.75
 wc      1.0
 eta     1.0
+beta    1.0
+N_point 100
 #############
-T       10.0
+T       25.0
 dt      0.01
 #############
 sigma
