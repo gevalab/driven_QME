@@ -6,6 +6,19 @@ int input(class Hamiltonian & Hami_sim, class timer & time_sim, class state & st
     infile.open("input.txt",ios::in);
     char name[20];
     int flag = 1;
+    
+    do{
+        infile >> name;
+        if(strcmp(name,"projector")==0){
+            infile >> method::projector;
+            cout << "projector: " << method::projector << endl;
+        }else if(strcmp(name,"time_convolution")==0){
+            infile >> method::time_convolution;
+            cout << "time_convolution:  " << method::time_convolution << endl;
+        }else{flag=0;}
+    }while(flag);
+    
+    flag=1;
     do{
         infile >> name;
         if(strcmp(name,"w")==0){

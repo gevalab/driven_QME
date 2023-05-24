@@ -1,6 +1,9 @@
-w       2.8125
+projector           pop
+time_convolution    tc
+#############
+w       0.0
 w01     0.28125
-epsilon 0.02
+epsilon 0.0
 Lambda  0.2
 N       50
 Omega   0.5
