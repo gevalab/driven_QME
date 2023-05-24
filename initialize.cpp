@@ -16,3 +16,11 @@ int initialize(class Hamiltonian & Hami_sim, class timer & time_sim, class state
     cout << "initialize over" << endl;
     return 0;
 }
+
+int check_correlation_function(class Hamiltonian & Hami_sim){
+    double t_check = 0;
+    double tau_check = 1;
+    cout << "V1001(" << t_check << "," << tau_check << ") = " << Hami_sim.V10_V01(t_check,tau_check) << endl;
+    cout << "V0110(" << t_check << "," << tau_check << ") = " << Hami_sim.V01_V10(t_check,tau_check) << endl;
+    return 0;
+}

@@ -1,8 +1,8 @@
 # CMake generated Testfile for 
-# Source directory: /Users/huangzongwei/Documents/Academic/Umich/2022/Geva/driven_GQME/cpp
-# Build directory: /Users/huangzongwei/Documents/Academic/Umich/2022/Geva/driven_GQME/cpp/build
+# Source directory: /Users/huangzongwei/Documents/Academic/Umich/2022/Geva/driven_QME/cpp/2.
+# Build directory: /Users/huangzongwei/Documents/Academic/Umich/2022/Geva/driven_QME/cpp/2./build
 # 
 # This file includes the relevant testing commands required for 
 # testing this directory and lists subdirectories to be tested as well.
-add_test(driven_GQME "/Users/huangzongwei/Documents/Academic/Umich/2022/Geva/driven_GQME/cpp/driven_GQME")
-set_tests_properties(driven_GQME PROPERTIES  _BACKTRACE_TRIPLES "/Users/huangzongwei/Documents/Academic/Umich/2022/Geva/driven_GQME/cpp/CMakeLists.txt;21;add_test;/Users/huangzongwei/Documents/Academic/Umich/2022/Geva/driven_GQME/cpp/CMakeLists.txt;0;")
+add_test(driven_QME "/Users/huangzongwei/Documents/Academic/Umich/2022/Geva/driven_QME/cpp/2./driven_QME")
+set_tests_properties(driven_QME PROPERTIES  _BACKTRACE_TRIPLES "/Users/huangzongwei/Documents/Academic/Umich/2022/Geva/driven_QME/cpp/2./CMakeLists.txt;21;add_test;/Users/huangzongwei/Documents/Academic/Umich/2022/Geva/driven_QME/cpp/2./CMakeLists.txt;0;")

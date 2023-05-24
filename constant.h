@@ -4,11 +4,17 @@
 #include <iostream>
 #include <armadillo>
 #include <complex>
+#include <vector>
 
 using namespace std;
 
 const double h_ = 1.0;         // reduced plank constant, in atomic unit
 const double pi = 3.14159265358979323846; //pi
+class method{
+    public:
+    static char projector[];        // projector of the QME (pop = population only; full = full density matrix)
+    static char time_convolution[]; // time convolution of the QME (tcl = time convolutionless; tc = time convolution)
+};
 
 class Hamiltonian
 {
@@ -35,6 +41,7 @@ class Hamiltonian
 class timer
 {
     public:
+    static std::vector<double> t_history;
     double T;            // total simulation time
     double dt;           // timestep
     double t;            // current time, default=0
@@ -45,6 +52,7 @@ class timer
 class state
 {
     public:
+    static std::vector<arma::cx_mat> sigma_history;
     arma::cx_mat sigma = arma::cx_mat(2,2,arma::fill::zeros);  // density matrix
     void print() const;
     int check_normal();

@@ -1,4 +1,4 @@
-project(driven_GQME)
+project(driven_QME)
 
 set(OPENBLAS_INCLUDE_DIRS /opt/homebrew/Cellar/openblas/0.3.21/include/)
 set(OPENBLAS_LIBRARIES /opt/homebrew/Cellar/openblas/0.3.21/lib/libopenblasp-r0.3.21.dylib)
@@ -14,8 +14,8 @@ set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
 set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
 set (CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
 
-add_executable(driven_GQME main.cpp constant.h constant.cpp ioput.h ioput.cpp initialize.h initialize.cpp evolution.h evolution.cpp)
-target_link_libraries(driven_GQME PRIVATE ${ARMADILLO_LIBRARIES})
+add_executable(driven_QME main.cpp constant.h constant.cpp ioput.h ioput.cpp initialize.h initialize.cpp evolution.h evolution.cpp)
+target_link_libraries(driven_QME PRIVATE ${ARMADILLO_LIBRARIES})
 enable_testing()
 
-add_test(NAME driven_GQME COMMAND driven_GQME)
+add_test(NAME driven_QME COMMAND driven_QME)

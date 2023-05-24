@@ -1,5 +1,9 @@
 #include "constant.h"
 
+// method
+char method::projector[] = "pop";           // default = pop
+char method::time_convolution[] = "tcl";    // default = tcl
+
 // Hamiltonian 
 double  Hamiltonian::w       = 0.0;
 double  Hamiltonian::w01     = 0.0;
@@ -10,7 +14,7 @@ double  Hamiltonian::Omega   = 1.0;
 double  Hamiltonian::y0      = 0.0;
 double  Hamiltonian::wc      = 1.0;
 double  Hamiltonian::eta     = 1.0;
-double  Hamiltonian::beta    = 1.0e16;      //default = infinity
+double  Hamiltonian::beta    = 1.0e16;      // default = infinity
 int     Hamiltonian::N_point = 100;
 void Hamiltonian::print() const{
     cout << "w          " << w          << endl;
@@ -88,6 +92,7 @@ std::complex<double> Hamiltonian::V10_V01(double t, double tau) const{
 }
 
 // timer
+std::vector<double> timer::t_history;
 timer::timer(double T_set, double dt_set, double t_set){
     T = T_set;
     dt = dt_set;
@@ -97,7 +102,8 @@ void timer::print() const{
     cout << "t/T =  " << t << "/" << T << endl;
 }
 
-// states
+// state
+std::vector<arma::cx_mat> state::sigma_history;
 void state::print() const{
     sigma.print("sigma:");
 }
