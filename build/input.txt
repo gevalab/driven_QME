@@ -1,4 +1,4 @@
-projector           pop
+projector           full
 time_convolution    tc
 #############
 w       0.0

@@ -1,7 +1,7 @@
 #include "constant.h"
 
 // method
-char method::projector[] = "pop";           // default = pop
+char method::projector[] = "full";          // default = full
 char method::time_convolution[] = "tcl";    // default = tcl
 
 // Hamiltonian 
@@ -74,6 +74,38 @@ int Hamiltonian::Ohmic_mode_generator(){
 
     return 0;
 }
+std::complex<double> Hamiltonian::V01(double t) const{
+    arma::vec vec2 = 0.5/h_ * w_%arma::pow(Req,2) % arma::sin( w_*t);
+    arma::vec vec3 = 0.5/h_ * w_%arma::pow(Req,2) % arma::pow(arma::tanh(0.5*beta*h_*w_),-1) % (arma::cos( w_*t)-1);
+    std::complex<double> part1 = (epsilon + exp( 1i*w*t)*Lambda) * exp( 1i*w01*t);
+    std::complex<double> part2 = exp(-1i*arma::sum(vec2));
+    std::complex<double> part3 = exp(    arma::sum(vec3));
+    return part1*part2*part3;
+}
+std::complex<double> Hamiltonian::V10(double t) const{
+    arma::vec vec2 = 0.5/h_ * w_%arma::pow(Req,2) % arma::sin(-w_*t);
+    arma::vec vec3 = 0.5/h_ * w_%arma::pow(Req,2) % arma::pow(arma::tanh(0.5*beta*h_*w_),-1) % (arma::cos(-w_*t)-1);
+    std::complex<double> part1 = (epsilon + exp(-1i*w*t)*Lambda) * exp(-1i*w01*t);
+    std::complex<double> part2 = exp(-1i*arma::sum(vec2));
+    std::complex<double> part3 = exp(    arma::sum(vec3));
+    return part1*part2*part3;
+}
+std::complex<double> Hamiltonian::V01_V01(double t, double tau) const{
+    arma::vec vec2 = 0.5/h_ * w_%arma::pow(Req,2) % arma::pow(arma::tanh(0.5*beta*h_*w_),-1) % (2*arma::cos(w_*t)+2*arma::cos(w_*tau)-3-arma::cos(w_*(t-tau)));
+    arma::vec vec3 = 1.0/h_ * w_%arma::pow(Req,2) % (0.5*arma::sin(w_*(t-tau))-arma::sin(w_*t));
+    std::complex<double> part1 = (pow(epsilon,2) + epsilon*exp( 1i*w*t) + epsilon*exp( 1i*w*tau) + pow(Lambda,2)*exp( 1i*w*(t+tau))) * exp( 1i*w01*(t+tau));
+    std::complex<double> part2 = exp(   arma::sum(vec2));
+    std::complex<double> part3 = exp(1i*arma::sum(vec3));
+    return part1*part2*part3;
+}
+std::complex<double> Hamiltonian::V10_V10(double t, double tau) const{
+    arma::vec vec2 = 0.5/h_ * w_%arma::pow(Req,2) % arma::pow(arma::tanh(0.5*beta*h_*w_),-1) % (2*arma::cos(w_*t)+2*arma::cos(w_*tau)-3-arma::cos(w_*(t-tau)));
+    arma::vec vec3 = 1.0/h_ * w_%arma::pow(Req,2) % (0.5*arma::sin(w_*(t-tau))+arma::sin(w_*t));
+    std::complex<double> part1 = (pow(epsilon,2) + epsilon*exp(-1i*w*t) + epsilon*exp(-1i*w*tau) + pow(Lambda,2)*exp(-1i*w*(t+tau))) * exp(-1i*w01*(t+tau));
+    std::complex<double> part2 = exp(   arma::sum(vec2));
+    std::complex<double> part3 = exp(1i*arma::sum(vec3));
+    return part1*part2*part3;
+}
 std::complex<double> Hamiltonian::V01_V10(double t, double tau) const{
     arma::vec vec2 = 0.5/h_ * w_%arma::pow(Req,2) % arma::pow(arma::tanh(0.5*beta*h_*w_),-1) % (arma::cos(w_*(t-tau))-1); // where is beta come from ???
     arma::vec vec3 = 0.5/h_ * w_%arma::pow(Req,2) % arma::sin(w_*(t-tau));
@@ -90,6 +122,40 @@ std::complex<double> Hamiltonian::V10_V01(double t, double tau) const{
     std::complex<double> part3 = exp( 1i*arma::sum(vec3));
     return part1*part2*part3;
 }
+arma::cx_mat Hamiltonian::L(double t) const{
+    arma::cx_mat L = arma::cx_mat(4,4,arma::fill::zeros);
+    std::complex<double> V01t = V01(t);
+    std::complex<double> V10t = V10(t);
+    L(0,1) = -V10t;
+    L(0,2) =  V01t;
+    L(1,0) = -V01t;
+    L(1,3) =  V01t;
+    L(2,0) =  V10t;
+    L(2,3) = -V10t;
+    L(3,1) =  V10t;
+    L(3,2) = -V01t;
+    return L;
+}
+arma::cx_mat Hamiltonian::K(double t, double tau) const{
+    arma::cx_mat K = arma::cx_mat(4,4,arma::fill::zeros);
+    std::complex<double> V01t    = V01(t);
+    std::complex<double> V01t_   = V01(tau);
+    std::complex<double> V10t    = V10(t);
+    std::complex<double> V10t_   = V10(tau);
+    std::complex<double> V01V01 = V01_V01(t,tau);
+    std::complex<double> V01V10 = V01_V10(t,tau);
+    std::complex<double> V10V01 = V10_V01(t,tau);
+    std::complex<double> V10V10 = V10_V10(t,tau);
+    K(0,0) =   2*std::real(V01V10 - V01t*V10t_);
+    K(0,3) = - 2*std::real(V10V01 - V10t*V01t_);
+    K(3,3) =   2*std::real(V10V01 - V10t*V01t_);
+    K(3,0) = - 2*std::real(V01V10 - V01t*V10t_);
+    K(1,1) =   V01V10 - V01t*V10t_ + std::conj(V10V01) - std::conj(V10t*V01t_);
+    K(1,2) = - V01V01 + V01t*V01t_ - std::conj(V10V10) + std::conj(V10t*V10t_);
+    K(2,2) =   V10V01 - V10t*V01t_ + std::conj(V01V10) - std::conj(V01t*V10t_);
+    K(2,1) = - V10V10 + V10t*V10t_ - std::conj(V01V01) + std::conj(V01t*V01t_);
+    return K;
+}
 
 // timer
 std::vector<double> timer::t_history;
@@ -104,6 +170,7 @@ void timer::print() const{
 
 // state
 std::vector<arma::cx_mat> state::sigma_history;
+std::vector<arma::cx_mat> state::sigma_vec_history;
 void state::print() const{
     sigma.print("sigma:");
 }
@@ -141,4 +208,14 @@ double state::sigma_z(){
 double state::sigma_tr(){
     std::complex<double> s_tr= arma::trace(sigma);
     return s_tr.real();
+}
+arma::cx_mat state::mat_to_vec(arma::cx_mat sigma_mat) const{
+    arma::cx_mat sigma_vec = sigma_mat.st();
+    sigma_vec.reshape(4,1);
+    return sigma_vec;
+}
+arma::cx_mat state::vec_to_mat(arma::cx_mat sigma_vec) const{
+    arma::cx_mat sigma_mat = sigma_vec;
+    sigma_mat.reshape(2,2);
+    return sigma_mat.st();
 }

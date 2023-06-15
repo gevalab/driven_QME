@@ -34,8 +34,14 @@ class Hamiltonian
     arma::vec      Req;        // equilibrium position of the normalized bath modes
     void print() const;
     int Ohmic_mode_generator();
+    std::complex<double> V01(double t) const;
+    std::complex<double> V10(double t) const;
+    std::complex<double> V01_V01(double t, double tau) const;
+    std::complex<double> V10_V10(double t, double tau) const;
     std::complex<double> V10_V01(double t, double tau) const;
     std::complex<double> V01_V10(double t, double tau) const;
+    arma::cx_mat L(double t) const;
+    arma::cx_mat K(double t, double tau) const;
 };
 
 class timer
@@ -53,6 +59,7 @@ class state
 {
     public:
     static std::vector<arma::cx_mat> sigma_history;
+    static std::vector<arma::cx_mat> sigma_vec_history;
     arma::cx_mat sigma = arma::cx_mat(2,2,arma::fill::zeros);  // density matrix
     void print() const;
     int check_normal();
@@ -62,6 +69,8 @@ class state
     double sigma_y();
     double sigma_z();
     double sigma_tr();
+    arma::cx_mat mat_to_vec(arma::cx_mat sigma_mat) const;
+    arma::cx_mat vec_to_mat(arma::cx_mat sigma_vec) const;
 };
 
 #endif
