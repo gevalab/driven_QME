@@ -1,14 +1,14 @@
 /////////////////////////////
-//    driven_QME 2.0      //
+//    driven_QME 3.0       //
 // edit by Zongwei Huang   //
-//       2022.12.6         //
+//       2023.5.30         //
 /////////////////////////////
 // This is a population-only non-condon version for the driven system QME
 // version 1.1 update: checked with yifan and pouya's result, known error fixed
 // version 1.2 update: add correlation function check
 // version 2.0 update: rename the projecto to 'driven_QME'
 //                     add time-convolution version for population only case
-
+// version 3.0 update: add full version for time-convolution and time-convolutionless
 #include <iostream>
 #include "constant.h"
 #include "ioput.h"

@@ -17,7 +17,8 @@ int input(class Hamiltonian & Hami_sim, class timer & time_sim, class state & st
             cout << "time_convolution:  " << method::time_convolution << endl;
         }else{flag=0;}
     }while(flag);
-    
+    cout << "after reading projector " << method::projector << endl;
+    cout << "after reading time_convolution " << method::time_convolution << endl;
     flag=1;
     do{
         infile >> name;
