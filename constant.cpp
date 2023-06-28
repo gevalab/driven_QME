@@ -1,8 +1,10 @@
 #include "constant.h"
 
 // method
-char method::projector[] = "full";          // default = full
-char method::time_convolution[] = "tcl";    // default = tcl
+char method::projector[] = "full";              // option: full, pop
+char method::time_convolution[] = "tcl";        // option: tcl, tc
+char method::spectral_density[] = "Ohmic_1";    // option: Ohmic_1, Ohmic_2
+char method::steady_state[] = "yes";            // option: yes, no
 
 // Hamiltonian 
 double  Hamiltonian::w       = 0.0;
@@ -15,6 +17,7 @@ double  Hamiltonian::y0      = 0.0;
 double  Hamiltonian::wc      = 1.0;
 double  Hamiltonian::eta     = 1.0;
 double  Hamiltonian::beta    = 1.0e16;      // default = infinity
+double  Hamiltonian::M       = 1.0;
 int     Hamiltonian::N_point = 100;
 void Hamiltonian::print() const{
     cout << "w          " << w          << endl;
@@ -27,8 +30,10 @@ void Hamiltonian::print() const{
     cout << "wc         " << wc         << endl;
     cout << "eta        " << eta        << endl;
     cout << "beta       " << beta       << endl;
+    cout << "M          " << M          << endl;
 }
-int Hamiltonian::Ohmic_mode_generator(){
+int Hamiltonian::Ohmic_1_mode_generator(){
+    // from J. Chem. Phys. 155, 204101 (2021)
     int Ns = N-1;                                           // number of the secondary mode
     arma::vec w = arma::vec(Ns,arma::fill::zeros);          // frequency of the 2nd modes
     arma::vec c = arma::vec(Ns,arma::fill::zeros);          // couple constant of the 2nd modes
@@ -39,6 +44,55 @@ int Hamiltonian::Ohmic_mode_generator(){
     for(int i=0;i<Ns;i++){
         w(i) = wc*log(Ns/(Ns-0.5-i));
         c(i) = sqrt(2*eta*wc/(pi*Ns))*w(i);
+    }
+    w.print("w:");
+    c.print("c:");
+    // generate the Hessian matrix
+    arma::vec A = arma::pow(c,2)/arma::pow(w,2);
+    Hessian(0,0) = pow(Omega,2) + arma::sum(A);
+    for(int i=1;i<N;i++){
+        Hessian(0,i) = c(i-1);
+        Hessian(i,0) = c(i-1);
+        Hessian(i,i) = pow(w(i-1),2);
+    }
+    //Hessian.print("Hessian:");
+    // get the eigenvalue and eigenvector
+    arma::vec eigval;
+    arma::mat eigvec;
+    arma::eig_sym(eigval,eigvec,Hessian);
+    //eigval.print("eigval:");
+    //eigvec.print("eigvec:");
+    // check eigen
+    arma::mat D = eigvec * arma::diagmat(eigval) * eigvec.t();
+    arma::mat diff = Hessian - D;
+    //D.print("D:");
+    //diff.print("diff:");    // should be zeros
+    // get w_ and Req
+    arma::vec one(1,arma::fill::ones);
+    arma::vec req = join_cols(one,-c/arma::pow(w,2));
+    //req.print("req:");
+
+    w_ = arma::pow(eigval,0.5);
+    Req = 2*y0*eigvec.t()*req;
+    w_.print("w_:");
+    Req.print("Req:");
+
+    return 0;
+}
+int Hamiltonian::Ohmic_2_mode_generator(){
+    // from J. Phys. Chem. Lett. 2022, 13, 2330−2337
+    int Ns = N-1;                                           // number of the secondary mode
+    double wmax = 3*wc;                                     // Secondary modes maximum frequency
+    double w0   = wc/Ns*(1-exp(-wmax/wc));                  // 
+    arma::vec w = arma::vec(Ns,arma::fill::zeros);          // frequency of the 2nd modes
+    arma::vec c = arma::vec(Ns,arma::fill::zeros);          // couple constant of the 2nd modes
+    arma::mat Hessian = arma::mat(N,N,arma::fill::zeros);   // Hessian matrix for 1st+2nd modes
+    w_  = arma::vec(N,arma::fill::zeros);                   // frequency of the normalized modes
+    Req = arma::vec(N,arma::fill::zeros);                   // Equilibrium position of the normalized modes
+    // generate the Ohmic spectral density
+    for(int i=0;i<Ns;i++){
+        w(i) = -wc*log(1-(i+1)*w0/wc);
+        c(i) = sqrt(2*eta*w0/(pi*M))*w(i);
     }
     w.print("w:");
     c.print("c:");

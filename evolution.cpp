@@ -20,7 +20,7 @@ int evolution(class Hamiltonian & Hami_sim, class timer & time_sim, class state 
         // print the sigma
         if(int(time_sim.t/time_sim.dt+0.5)%10==0){
             std::cout << time_sim.t << '\t' << stat_sim.sigma_z() << '\t' << stat_sim.sigma_tr() << std::endl;
-            outfile   << time_sim.t << '\t' << stat_sim.sigma_z() << endl;
+            outfile   << time_sim.t << '\t' << stat_sim.sigma_z() << '\t' << stat_sim.sigma(0,0).real() << '\t' << stat_sim.sigma(1,1).real() << endl;
         }
     }
     return 0;
@@ -219,4 +219,30 @@ std::complex<double> k_calculation(const class Hamiltonian & Hami_sim, int j, in
         kjk = 2*pow(h_,-2)*sum.real();
         return kjk;
     }else{return 0;}
+}
+
+int steady_state(class Hamiltonian & Hami_sim, class timer & time_sim){
+    std::cout << "steady state calculation" << std::endl;
+    ofstream outfile;
+    outfile.open("steady_state.txt",ios::app);
+    outfile << "t\t" << "k01\t" << "k10\t" << "x\t" << "sigma_z" << endl;
+    double t_max = 4*time_sim.T;
+    double dt    = time_sim.dt;
+    int    N     = 100;
+    std::complex<double> k01;
+    std::complex<double> k10;
+    std::complex<double> x;
+    std::complex<double> sigma_z;
+    for(int i=1;i<=N;i++){
+        double t  = i*t_max/N;
+        int N_int = int(t/dt);
+        k01 = k_calculation(Hami_sim,0,1,t,N_int);
+        k10 = k_calculation(Hami_sim,1,0,t,N_int);
+        x = k01/k10;
+        sigma_z = (x-1.0)/(x+1.0);
+        std::cout << t << "\t" << k01.real() << "\t" << k10.real() << "\t" << x.real() << "\t" << sigma_z.real() << std::endl;
+        outfile   << t << "\t" << k01.real() << "\t" << k10.real() << "\t" << x.real() << "\t" << sigma_z.real() << endl;
+    }
+    std::cout << "steady state calculation completed" << std::endl;
+    return 0;
 }

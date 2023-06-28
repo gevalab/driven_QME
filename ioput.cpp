@@ -6,7 +6,6 @@ int input(class Hamiltonian & Hami_sim, class timer & time_sim, class state & st
     infile.open("input.txt",ios::in);
     char name[20];
     int flag = 1;
-    
     do{
         infile >> name;
         if(strcmp(name,"projector")==0){
@@ -15,10 +14,18 @@ int input(class Hamiltonian & Hami_sim, class timer & time_sim, class state & st
         }else if(strcmp(name,"time_convolution")==0){
             infile >> method::time_convolution;
             cout << "time_convolution:  " << method::time_convolution << endl;
+        }else if(strcmp(name,"spectral_density")==0){
+            infile >> method::spectral_density;
+            cout << "spectral_density:  " << method::spectral_density << endl;
+        }else if(strcmp(name,"steady_state")==0){
+            infile >> method::steady_state;
+            cout << "steady_state:  " << method::steady_state << endl;
         }else{flag=0;}
     }while(flag);
     cout << "after reading projector " << method::projector << endl;
     cout << "after reading time_convolution " << method::time_convolution << endl;
+    cout << "after reading spectral_density " << method::spectral_density << endl;
+    
     flag=1;
     do{
         infile >> name;
@@ -52,6 +59,9 @@ int input(class Hamiltonian & Hami_sim, class timer & time_sim, class state & st
         }else if(strcmp(name,"beta")==0){
             infile >> Hamiltonian::beta;
             cout << "beta:   " << Hamiltonian::beta << endl;
+        }else if(strcmp(name,"M")==0){
+            infile >> Hamiltonian::M;
+            cout << "M:   " << Hamiltonian::M << endl;
         }else if(strcmp(name,"N_point")==0){
             infile >> Hamiltonian::N_point;
             cout << "N_point:   " << Hamiltonian::N_point << endl;

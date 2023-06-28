@@ -14,6 +14,8 @@ class method{
     public:
     static char projector[];        // projector of the QME (pop = population only; full = full density matrix)
     static char time_convolution[]; // time convolution of the QME (tcl = time convolutionless; tc = time convolution)
+    static char spectral_density[]; // spectral density for the bath modes (Ohmic_1 = J. Chem. Phys. 155, 204101 (2021), Ohmic_2 = J. Phys. Chem. Lett. 2022, 13, 2330−2337)
+    static char steady_state[];     // calculate steady state or not
 };
 
 class Hamiltonian
@@ -29,11 +31,13 @@ class Hamiltonian
     static double  wc;         // cutoff frequency of Ohmic spectral density
     static double  eta;        // coupling strength of Ohmic spectral density
     static double  beta;       // 1/kBT
+    static double  M;          // mass for the particle
     static int     N_point;    // number of integral points 
     arma::vec      w_;         // frequency of the normalized bath modes
     arma::vec      Req;        // equilibrium position of the normalized bath modes
     void print() const;
-    int Ohmic_mode_generator();
+    int Ohmic_1_mode_generator();
+    int Ohmic_2_mode_generator();
     std::complex<double> V01(double t) const;
     std::complex<double> V10(double t) const;
     std::complex<double> V01_V01(double t, double tau) const;

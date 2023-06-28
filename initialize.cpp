@@ -2,8 +2,12 @@
 
 int initialize(class Hamiltonian & Hami_sim, class timer & time_sim, class state & stat_sim){
     cout << "initialize start" << endl;
-    // generate the Ohmic bath modes
-    Hami_sim.Ohmic_mode_generator();
+    // generate the bath modes
+    if(strcmp(method::spectral_density,"Ohmic_1")==0){
+        Hami_sim.Ohmic_1_mode_generator();
+    }else if(strcmp(method::spectral_density,"Ohmic_2")==0){
+        Hami_sim.Ohmic_2_mode_generator();
+    }
     cout << "Ohmic bath modes generated!" << endl;
     // check the densitry matrix
     if(stat_sim.check_normal() == 1){
