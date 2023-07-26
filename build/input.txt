@@ -2,11 +2,12 @@ projector           pop
 time_convolution    tcl
 spectral_density    Ohmic_2
 steady_state        no
+rotating_frame      no
 #############
 w       0.0
 w01     0.0294
-epsilon 0.0
-Lambda  1.102e-3
+epsilon 1.837e-4
+Lambda  1.837e-4
 N       101
 Omega   3.507e-4
 y0      3.116e2

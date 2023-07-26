@@ -16,6 +16,7 @@ class method{
     static char time_convolution[]; // time convolution of the QME (tcl = time convolutionless; tc = time convolution)
     static char spectral_density[]; // spectral density for the bath modes (Ohmic_1 = J. Chem. Phys. 155, 204101 (2021), Ohmic_2 = J. Phys. Chem. Lett. 2022, 13, 2330−2337)
     static char steady_state[];     // calculate steady state or not
+    static char rotating_frame[];   // using rotating frame or not
 };
 
 class Hamiltonian

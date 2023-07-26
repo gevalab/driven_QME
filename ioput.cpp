@@ -20,6 +20,9 @@ int input(class Hamiltonian & Hami_sim, class timer & time_sim, class state & st
         }else if(strcmp(name,"steady_state")==0){
             infile >> method::steady_state;
             cout << "steady_state:  " << method::steady_state << endl;
+        }else if(strcmp(name,"rotating_frame")==0){
+            infile >> method::rotating_frame;
+            cout << "rotating_frame:  " << method::rotating_frame << endl;
         }else{flag=0;}
     }while(flag);
     cout << "after reading projector " << method::projector << endl;
