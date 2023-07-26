@@ -1,7 +1,7 @@
 /////////////////////////////
-//    driven_QME 3.1       //
+//    driven_QME 4.0       //
 // edit by Zongwei Huang   //
-//       2023.6.19         //
+//       2023.7.25         //
 /////////////////////////////
 // This is a population-only non-condon version for the driven system QME
 // version 1.1 update: checked with yifan and pouya's result, known error fixed
@@ -12,6 +12,8 @@
 // version 3.1 update: add new ohmic spectrum generator from (J. Phys. Chem. Lett. 2022, 13, 2330−2337)
 //                     add steady state calculator (pop-tcl)
 //                     add run time function
+// version 4.0 update: add non-rotating frame version
+
 #include <iostream>
 #include <chrono>
 #include "constant.h"

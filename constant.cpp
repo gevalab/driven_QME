@@ -5,6 +5,7 @@ char method::projector[] = "full";              // option: full, pop
 char method::time_convolution[] = "tcl";        // option: tcl, tc
 char method::spectral_density[] = "Ohmic_1";    // option: Ohmic_1, Ohmic_2
 char method::steady_state[] = "yes";            // option: yes, no
+char method::rotating_frame[] = "yes";          // option: yes, no
 
 // Hamiltonian 
 double  Hamiltonian::w       = 0.0;
@@ -131,7 +132,12 @@ int Hamiltonian::Ohmic_2_mode_generator(){
 std::complex<double> Hamiltonian::V01(double t) const{
     arma::vec vec2 = 0.5/h_ * w_%arma::pow(Req,2) % arma::sin( w_*t);
     arma::vec vec3 = 0.5/h_ * w_%arma::pow(Req,2) % arma::pow(arma::tanh(0.5*beta*h_*w_),-1) % (arma::cos( w_*t)-1);
-    std::complex<double> part1 = (epsilon + exp( 1i*w*t)*Lambda) * exp( 1i*w01*t);
+    std::complex<double> part1;
+    if(strcmp(method::rotating_frame,"yes")==0){
+        part1 = (epsilon + exp( 1i*w*t)*Lambda) * exp( 1i*w01*t);
+    }else{
+        part1 = (epsilon*exp( 1i*w*t) + Lambda) * exp( 1i*w01*t);
+    }
     std::complex<double> part2 = exp(-1i*arma::sum(vec2));
     std::complex<double> part3 = exp(    arma::sum(vec3));
     return part1*part2*part3;
@@ -139,7 +145,12 @@ std::complex<double> Hamiltonian::V01(double t) const{
 std::complex<double> Hamiltonian::V10(double t) const{
     arma::vec vec2 = 0.5/h_ * w_%arma::pow(Req,2) % arma::sin(-w_*t);
     arma::vec vec3 = 0.5/h_ * w_%arma::pow(Req,2) % arma::pow(arma::tanh(0.5*beta*h_*w_),-1) % (arma::cos(-w_*t)-1);
-    std::complex<double> part1 = (epsilon + exp(-1i*w*t)*Lambda) * exp(-1i*w01*t);
+    std::complex<double> part1;
+    if(strcmp(method::rotating_frame,"yes")==0){
+        part1 = (epsilon + exp(-1i*w*t)*Lambda) * exp(-1i*w01*t);
+    }else{
+        part1 = (epsilon*exp(-1i*w*t) + Lambda) * exp(-1i*w01*t);
+    }
     std::complex<double> part2 = exp(-1i*arma::sum(vec2));
     std::complex<double> part3 = exp(    arma::sum(vec3));
     return part1*part2*part3;
@@ -147,7 +158,12 @@ std::complex<double> Hamiltonian::V10(double t) const{
 std::complex<double> Hamiltonian::V01_V01(double t, double tau) const{
     arma::vec vec2 = 0.5/h_ * w_%arma::pow(Req,2) % arma::pow(arma::tanh(0.5*beta*h_*w_),-1) % (2*arma::cos(w_*t)+2*arma::cos(w_*tau)-3-arma::cos(w_*(t-tau)));
     arma::vec vec3 = 1.0/h_ * w_%arma::pow(Req,2) % (0.5*arma::sin(w_*(t-tau))-arma::sin(w_*t));
-    std::complex<double> part1 = (pow(epsilon,2) + epsilon*exp( 1i*w*t) + epsilon*exp( 1i*w*tau) + pow(Lambda,2)*exp( 1i*w*(t+tau))) * exp( 1i*w01*(t+tau));
+    std::complex<double> part1;
+    if(strcmp(method::rotating_frame,"yes")==0){
+        part1 = (pow(epsilon,2) + epsilon*exp( 1i*w*t) + epsilon*exp( 1i*w*tau) + pow(Lambda,2)*exp( 1i*w*(t+tau))) * exp( 1i*w01*(t+tau));
+    }else{
+        part1 = (pow(epsilon,2)*exp( 1i*w*(t+tau)) + epsilon*exp( 1i*w*t) + epsilon*exp( 1i*w*tau) + pow(Lambda,2)) * exp( 1i*w01*(t+tau));
+    }
     std::complex<double> part2 = exp(   arma::sum(vec2));
     std::complex<double> part3 = exp(1i*arma::sum(vec3));
     return part1*part2*part3;
@@ -155,7 +171,12 @@ std::complex<double> Hamiltonian::V01_V01(double t, double tau) const{
 std::complex<double> Hamiltonian::V10_V10(double t, double tau) const{
     arma::vec vec2 = 0.5/h_ * w_%arma::pow(Req,2) % arma::pow(arma::tanh(0.5*beta*h_*w_),-1) % (2*arma::cos(w_*t)+2*arma::cos(w_*tau)-3-arma::cos(w_*(t-tau)));
     arma::vec vec3 = 1.0/h_ * w_%arma::pow(Req,2) % (0.5*arma::sin(w_*(t-tau))+arma::sin(w_*t));
-    std::complex<double> part1 = (pow(epsilon,2) + epsilon*exp(-1i*w*t) + epsilon*exp(-1i*w*tau) + pow(Lambda,2)*exp(-1i*w*(t+tau))) * exp(-1i*w01*(t+tau));
+    std::complex<double> part1;
+    if(strcmp(method::rotating_frame,"yes")==0){
+        part1 = (pow(epsilon,2) + epsilon*exp(-1i*w*t) + epsilon*exp(-1i*w*tau) + pow(Lambda,2)*exp(-1i*w*(t+tau))) * exp(-1i*w01*(t+tau));
+    }else{
+        part1 = (pow(epsilon,2)*exp(-1i*w*(t+tau)) + epsilon*exp(-1i*w*t) + epsilon*exp(-1i*w*tau) + pow(Lambda,2)) * exp(-1i*w01*(t+tau));
+    }
     std::complex<double> part2 = exp(   arma::sum(vec2));
     std::complex<double> part3 = exp(1i*arma::sum(vec3));
     return part1*part2*part3;
@@ -163,7 +184,12 @@ std::complex<double> Hamiltonian::V10_V10(double t, double tau) const{
 std::complex<double> Hamiltonian::V01_V10(double t, double tau) const{
     arma::vec vec2 = 0.5/h_ * w_%arma::pow(Req,2) % arma::pow(arma::tanh(0.5*beta*h_*w_),-1) % (arma::cos(w_*(t-tau))-1); // where is beta come from ???
     arma::vec vec3 = 0.5/h_ * w_%arma::pow(Req,2) % arma::sin(w_*(t-tau));
-    std::complex<double> part1 = (exp( 1i*w*(t-tau))*pow(Lambda,2) + pow(epsilon,2) + epsilon*exp(1i*w*t)*Lambda + epsilon*exp(-1i*w*tau)*Lambda) * exp( 1i*w01*(t-tau));
+    std::complex<double> part1;
+    if(strcmp(method::rotating_frame,"yes")==0){
+        part1 = (exp( 1i*w*(t-tau))*pow(Lambda,2) + pow(epsilon,2) + epsilon*exp(1i*w*t)*Lambda + epsilon*exp(-1i*w*tau)*Lambda) * exp( 1i*w01*(t-tau));
+    }else{
+        part1 = (pow(Lambda,2) + exp( 1i*w*(t-tau))*pow(epsilon,2) + epsilon*exp(1i*w*t)*Lambda + epsilon*exp(-1i*w*tau)*Lambda) * exp( 1i*w01*(t-tau));
+    }
     std::complex<double> part2 = exp(    arma::sum(vec2));
     std::complex<double> part3 = exp(-1i*arma::sum(vec3));
     return part1*part2*part3;
@@ -171,7 +197,12 @@ std::complex<double> Hamiltonian::V01_V10(double t, double tau) const{
 std::complex<double> Hamiltonian::V10_V01(double t, double tau) const{
     arma::vec vec2 = 0.5/h_ * w_%arma::pow(Req,2) % arma::pow(arma::tanh(0.5*beta*h_*w_),-1) % (arma::cos(w_*(t-tau))-1);
     arma::vec vec3 = 1.0/h_ * w_%arma::pow(Req,2) % (arma::sin(w_*t)-arma::sin(w_*tau)-0.5*arma::sin(w_*(t-tau)));
-    std::complex<double> part1 = (exp(-1i*w*(t-tau))*pow(Lambda,2) + pow(epsilon,2) + epsilon*exp(1i*w*t)*Lambda + epsilon*exp(-1i*w*tau)*Lambda) * exp(-1i*w01*(t-tau));
+    std::complex<double> part1;
+    if(strcmp(method::rotating_frame,"yes")==0){
+        part1 = (exp(-1i*w*(t-tau))*pow(Lambda,2) + pow(epsilon,2) + epsilon*exp(1i*w*t)*Lambda + epsilon*exp(-1i*w*tau)*Lambda) * exp(-1i*w01*(t-tau));
+    }else{
+        part1 = (pow(Lambda,2) + exp(-1i*w*(t-tau))*pow(epsilon,2) + epsilon*exp(1i*w*t)*Lambda + epsilon*exp(-1i*w*tau)*Lambda) * exp(-1i*w01*(t-tau));
+    }
     std::complex<double> part2 = exp(    arma::sum(vec2));
     std::complex<double> part3 = exp( 1i*arma::sum(vec3));
     return part1*part2*part3;
