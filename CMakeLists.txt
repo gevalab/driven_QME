@@ -1,9 +1,9 @@
 project(driven_QME)
 
-set(OPENBLAS_INCLUDE_DIRS /opt/homebrew/Cellar/openblas/0.3.21/include/)
-set(OPENBLAS_LIBRARIES /opt/homebrew/Cellar/openblas/0.3.21/lib/libopenblasp-r0.3.21.dylib)
-set(ARMADILLO_INCLUDE_DIRS /opt/homebrew/Cellar/armadillo/11.4.2/include/)
-set(ARMADILLO_LIBRARIES /opt/homebrew/Cellar/armadillo/11.4.2/lib/libarmadillo.11.4.2.dylib)
+set(OPENBLAS_INCLUDE_DIRS /home/linuxbrew/.linuxbrew/Cellar/openblas/0.3.23/include/)
+set(OPENBLAS_LIBRARIES /home/linuxbrew/.linuxbrew/Cellar/openblas/0.3.23/lib/libopenblasp-r0.3.23.so)
+set(ARMADILLO_INCLUDE_DIRS /home/linuxbrew/.linuxbrew/Cellar/armadillo/12.4.1/include/)
+set(ARMADILLO_LIBRARIES /home/linuxbrew/.linuxbrew/Cellar/armadillo/12.4.1/lib/libarmadillo.so.12.4.1)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
