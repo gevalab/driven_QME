@@ -13,6 +13,7 @@
 //                     add steady state calculator (pop-tcl)
 //                     add run time function
 // version 4.0 update: add non-rotating frame version
+// version 4.0.1 update: correct the V01_V01 and V10_V10 function in Hamiltonian
 
 #include <iostream>
 #include <chrono>

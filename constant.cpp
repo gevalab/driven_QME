@@ -160,9 +160,9 @@ std::complex<double> Hamiltonian::V01_V01(double t, double tau) const{
     arma::vec vec3 = 1.0/h_ * w_%arma::pow(Req,2) % (0.5*arma::sin(w_*(t-tau))-arma::sin(w_*t));
     std::complex<double> part1;
     if(strcmp(method::rotating_frame,"yes")==0){
-        part1 = (pow(epsilon,2) + epsilon*exp( 1i*w*t) + epsilon*exp( 1i*w*tau) + pow(Lambda,2)*exp( 1i*w*(t+tau))) * exp( 1i*w01*(t+tau));
+        part1 = (pow(epsilon,2) + epsilon*exp( 1i*w*t)*Lambda + epsilon*exp( 1i*w*tau)*Lambda + pow(Lambda,2)*exp( 1i*w*(t+tau))) * exp( 1i*w01*(t+tau));
     }else{
-        part1 = (pow(epsilon,2)*exp( 1i*w*(t+tau)) + epsilon*exp( 1i*w*t) + epsilon*exp( 1i*w*tau) + pow(Lambda,2)) * exp( 1i*w01*(t+tau));
+        part1 = (pow(epsilon,2)*exp( 1i*w*(t+tau)) + epsilon*exp( 1i*w*t)*Lambda + epsilon*exp( 1i*w*tau)*Lambda + pow(Lambda,2)) * exp( 1i*w01*(t+tau));
     }
     std::complex<double> part2 = exp(   arma::sum(vec2));
     std::complex<double> part3 = exp(1i*arma::sum(vec3));
@@ -173,9 +173,9 @@ std::complex<double> Hamiltonian::V10_V10(double t, double tau) const{
     arma::vec vec3 = 1.0/h_ * w_%arma::pow(Req,2) % (0.5*arma::sin(w_*(t-tau))+arma::sin(w_*t));
     std::complex<double> part1;
     if(strcmp(method::rotating_frame,"yes")==0){
-        part1 = (pow(epsilon,2) + epsilon*exp(-1i*w*t) + epsilon*exp(-1i*w*tau) + pow(Lambda,2)*exp(-1i*w*(t+tau))) * exp(-1i*w01*(t+tau));
+        part1 = (pow(epsilon,2) + epsilon*exp(-1i*w*t)*Lambda + epsilon*exp(-1i*w*tau)*Lambda + pow(Lambda,2)*exp(-1i*w*(t+tau))) * exp(-1i*w01*(t+tau));
     }else{
-        part1 = (pow(epsilon,2)*exp(-1i*w*(t+tau)) + epsilon*exp(-1i*w*t) + epsilon*exp(-1i*w*tau) + pow(Lambda,2)) * exp(-1i*w01*(t+tau));
+        part1 = (pow(epsilon,2)*exp(-1i*w*(t+tau)) + epsilon*exp(-1i*w*t)*Lambda + epsilon*exp(-1i*w*tau)*Lambda + pow(Lambda,2)) * exp(-1i*w01*(t+tau));
     }
     std::complex<double> part2 = exp(   arma::sum(vec2));
     std::complex<double> part3 = exp(1i*arma::sum(vec3));
